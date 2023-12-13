@@ -1,0 +1,98 @@
+package tests;
+
+import helpers.Helpers;
+import helpers.PropertiesReader;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.Duration;
+
+import static org.testng.Assert.assertTrue;
+
+public class SelfHealingTest {
+
+    protected ThreadLocal<AppiumDriver> driver = new ThreadLocal<>();
+    protected ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
+    protected ThreadLocal<DesiredCapabilities> desiredCapabilities = new ThreadLocal<>();
+
+    protected Helpers helper;
+
+    public AppiumDriver getDriver() {
+        return driver.get();
+    }
+
+    public WebDriverWait getWait() {
+        return wait.get();
+    }
+
+    @BeforeMethod
+    @Parameters({"application.name"})
+    public void setUp(@Optional Method method, String applicationName) throws MalformedURLException {
+
+        helper = new Helpers();
+
+        if (applicationName.equalsIgnoreCase("unmodified")) {
+            helper.upload_application_api(new PropertiesReader().getProperty("unmodified.build"), applicationName);
+        } else if (applicationName.equalsIgnoreCase("modified")) {
+            helper.upload_application_api(new PropertiesReader().getProperty("modified.build"), applicationName);
+        }
+
+        DesiredCapabilities caps = new DesiredCapabilities();
+
+        caps.setCapability("testName", method.getName());
+        caps.setCapability("accessKey", new PropertiesReader().getProperty("ct.accessKey"));
+        caps.setCapability("appiumVersion", "2.1.3");
+        caps.setCapability("automationName", "UIAutomator2");
+        caps.setCapability("deviceQuery", "@os='android'");
+        caps.setCapability("app", "cloud:uniqueName=" + applicationName);
+        caps.setCapability("appPackage", "com.experitest.ExperiBank");
+        caps.setCapability("appActivity", ".LoginActivity");
+        caps.setCapability("fullReset", true);
+        caps.setCapability("autoGrantPermissions", true);
+        caps.setCapability("selfHealing", true);
+
+        desiredCapabilities.set(caps);
+        driver.set(new AndroidDriver(new URL(new PropertiesReader().getProperty("ct.cloudUrl") + "/wd/hub"), caps));
+        wait.set(new WebDriverWait(getDriver(), Duration.ofSeconds(5)));
+    }
+
+    @Test
+    public void login_scenario_test() throws InterruptedException {
+        getWait().until(ExpectedConditions.elementToBeClickable(By.id("com.experitest.ExperiBank:id/usernameTextField")));
+        getDriver().findElement(By.id("com.experitest.ExperiBank:id/usernameTextField")).sendKeys("company");
+        getDriver().findElement(By.id("com.experitest.ExperiBank:id/passwordTextField")).sendKeys("company");
+        getDriver().findElement(By.id("com.experitest.ExperiBank:id/loginButton")).click();
+
+        Thread.sleep(3000);
+
+        Boolean isLogoutButtonPresent = getDriver().findElement(By.id("com.experitest.ExperiBank:id/makePaymentButton")).isDisplayed();
+        assertTrue(isLogoutButtonPresent);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void tearDown(ITestResult result) {
+        try {
+            if (result.isSuccess()) {
+                getDriver().executeScript("seetest:client.setReportStatus", "Passed", "Test Passed");
+            } else {
+                getDriver().executeScript("seetest:client.setReportStatus", "Failed", "Test Failed");
+            }
+        } catch (Exception e) {}
+
+        if (driver != null) {
+            getDriver().quit();
+            driver.remove();
+            wait.remove();
+        }
+    }
+
+}
