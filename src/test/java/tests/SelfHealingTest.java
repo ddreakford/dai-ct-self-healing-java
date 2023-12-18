@@ -52,7 +52,8 @@ public class SelfHealingTest {
         caps.setCapability("accessKey", new PropertiesReader().getProperty("ct.accessKey"));
         caps.setCapability("appiumVersion", "2.1.3");
         caps.setCapability("automationName", "UIAutomator2");
-        caps.setCapability("deviceQuery", "@os='android'");
+        caps.setCapability("deviceQuery", "@serialnumber='RFCN80308MM'");
+//        caps.setCapability("deviceQuery", "@os='android'");
         caps.setCapability("app", "cloud:uniqueName=" + applicationName);
         caps.setCapability("appPackage", "com.experitest.ExperiBank");
         caps.setCapability("appActivity", ".LoginActivity");
@@ -63,10 +64,12 @@ public class SelfHealingTest {
         desiredCapabilities.set(caps);
         driver.set(new AndroidDriver(new URL(new PropertiesReader().getProperty("ct.cloudUrl") + "/wd/hub"), caps));
         wait.set(new WebDriverWait(getDriver(), Duration.ofSeconds(5)));
+        System.out.println("setUp() - Initializating the Session");
     }
 
     @Test
     public void login_scenario_test() throws InterruptedException {
+        System.out.println("login_scenario_test() - Starting the Test");
         getWait().until(ExpectedConditions.elementToBeClickable(By.id("com.experitest.ExperiBank:id/usernameTextField")));
         getDriver().findElement(By.id("com.experitest.ExperiBank:id/usernameTextField")).sendKeys("company");
         getDriver().findElement(By.id("com.experitest.ExperiBank:id/passwordTextField")).sendKeys("company");
@@ -76,10 +79,12 @@ public class SelfHealingTest {
 
         Boolean isLogoutButtonPresent = getDriver().findElement(By.id("com.experitest.ExperiBank:id/makePaymentButton")).isDisplayed();
         assertTrue(isLogoutButtonPresent);
+        System.out.println("login_scenario_test() - Ending the Test");
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
+        System.out.println("tearDown() - Closing the Session");
         try {
             if (result.isSuccess()) {
                 getDriver().executeScript("seetest:client.setReportStatus", "Passed", "Test Passed");

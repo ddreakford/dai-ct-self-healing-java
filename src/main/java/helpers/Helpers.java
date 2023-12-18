@@ -17,9 +17,6 @@ public class Helpers {
                     .field("uniqueName", uniqueName)
                     .asString();
 
-            System.out.println("Response Status: " + response.getStatus());
-            System.out.println("Response Body: " + response.getBody());
-
             JSONObject responseBody = new JSONObject(response.getBody());
 
             if (!responseBody.has("message")) {
