@@ -23,13 +23,13 @@ public class Helpers {
             JSONObject responseBody = new JSONObject(response.getBody());
 
             if (!responseBody.has("message")) {
-                System.out.println("Application Uploaded");
+                System.out.println("upload_application_api() - Android APK Build Uploaded to the Continuous Testing Platform.");
             } else {
                 String message = responseBody.getString("message");
                 System.out.println("Response Message: " + message);
 
                 if ("Application already exists".equals(message)) {
-                    System.out.println("Application already exists. Did not upload duplicate Application.");
+                    System.out.println("upload_application_api() - Android APK Build Already exists. Avoiding Upload of Duplicate Application.");
                 }
             }
 

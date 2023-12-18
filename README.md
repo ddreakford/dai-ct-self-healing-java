@@ -23,6 +23,14 @@ Provide your Cloud URL and Access Key in ```config.properties``` file.
 
 For Demonstration purposes, we will be using an Android APK Application, developed by Digital.ai.
 
+Two application builds will be used, one build that is **UNMODIFIED**:
+
+![img.png](images/unmodified.png)
+
+And one build that is **MODIFIED**, the username Text Field locator has changed:
+
+![img.png](images/modified.png)
+
 The Automated Script in **SelfHealingTest.java** is a simple test, that will perform the following steps:
 
 - Enter "company" into Username Text Field
@@ -30,24 +38,28 @@ The Automated Script in **SelfHealingTest.java** is a simple test, that will per
 - Click on the Login Button
 - Verify user landed on Dashboard
 
-When the test runs against the **UNMODIFIED** Application, the test will pass successfully, as the Self-Healing detects no changed or locators different than what is provided in the Automated Test.
-
-When the test runs against the **MODIFIED** Application, the Self-Healing will kick in as it will detect that the Username Text Field locator has changed, automatically finding the most appropriate replacement, and continue running the test.
-
-**Unmodified Application**:
-
-![img.png](images/unmodified.png)
-
-**Modified Application**:
-
-![img.png](images/modified.png)
-
 ### Running the Tests
 
-From your Terminal window, run the following command:
+#### When Self-Healing is disabled
+
+With Self-Healing disabled, the first test will pass against the unmodified build. The second test will always fail against the modified build.
+
+To try this out, run the following command from your Terminal window:
 
 ```agsl
-mvn clean test -DxmlFile=tests.xml
+mvn clean test -DxmlFile=regular_tests.xml
+```
+
+#### When Self-Healing is enabled
+
+With Self-Healing enabled, the first test will pass against the unmodified build. The second test will also pass, even though it is running against a modified build.
+
+The Self-Healing kicks in as it will detect that the Username Text Field locator has changed, automatically finding the most appropriate replacement, and continue running the test.
+
+To try this out, run the following command from your Terminal window:
+
+```agsl
+mvn clean test -DxmlFile=self_healing_tests.xml
 ```
 
 ### Viewing the Test Results
