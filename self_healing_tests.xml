@@ -2,6 +2,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Test Automation">
 
+    <parameter name="device.query" value="@os='android'" />
+
     <test name="Self_Healing_01">
 
         <parameter name="application.name" value="unmodified" />

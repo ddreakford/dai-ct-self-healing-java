@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
@@ -36,9 +37,10 @@ public class SelfHealingTest {
 
     @BeforeMethod
     @Parameters({"application.name"})
-    public void setUp(@Optional Method method, String applicationName) throws MalformedURLException {
+    public void setUp(@Optional ITestContext context, @Optional Method method, String applicationName) throws MalformedURLException {
 
         helper = new Helpers();
+        String deviceQuery = context.getSuite().getParameter("device.query");
 
         if (applicationName.equalsIgnoreCase("unmodified")) {
             helper.upload_application_api(new PropertiesReader().getProperty("unmodified.build"), applicationName);
@@ -52,7 +54,8 @@ public class SelfHealingTest {
         caps.setCapability("accessKey", new PropertiesReader().getProperty("ct.accessKey"));
         caps.setCapability("appiumVersion", "2.1.3");
         caps.setCapability("automationName", "UIAutomator2");
-        caps.setCapability("deviceQuery", "@serialnumber='RFCN80308MM'");
+                caps.setCapability("deviceQuery", deviceQuery);
+//        caps.setCapability("deviceQuery", "@serialnumber='R58M3070AMM'");
 //        caps.setCapability("deviceQuery", "@os='android'");
         caps.setCapability("app", "cloud:uniqueName=" + applicationName);
         caps.setCapability("appPackage", "com.experitest.ExperiBank");

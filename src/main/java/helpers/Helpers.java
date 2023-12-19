@@ -23,10 +23,15 @@ public class Helpers {
                 System.out.println("upload_application_api() - Android APK Build Uploaded to the Continuous Testing Platform.");
             } else {
                 String message = responseBody.getString("message");
-                System.out.println("Response Message: " + message);
 
                 if ("Application already exists".equals(message)) {
                     System.out.println("upload_application_api() - Android APK Build Already exists. Avoiding Upload of Duplicate Application.");
+                } else { // Not sure what other responses, hence just try / catch with print
+                    try {
+                        System.out.println(message);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
