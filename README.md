@@ -1,11 +1,11 @@
-## Digital.ai Continuous Testing - Appium Self-Healing
+## Digital.ai Continuous Testing - AI-Powered Self Healing for Appium
 
-Digital.ai AI-Powered Self-Healing uses AI techniques to understand and repair element mismatches autonomously without human intervention.
+The AI-Powered Self Healing uses AI techniques to understand and repair element mismatches autonomously without human intervention.
 
 ### Prerequisites
 
-1. Only works on SaaS Hosted Environments
-2. If you are a SaaS based customer and Self Healing is not enabled, reach out to support@digital.ai to have it enabled
+Only works on SaaS Hosted Environments.
+If you are a SaaS based customer and Self Healing is not enabled, reach out to support@digital.ai to have it enabled
 
 ### Limitations
 
