@@ -90,8 +90,3 @@ You can also open up the individual Test Reports to find the specific details ab
 
 [YouTube - Digital.ai Self Healing Demo](https://www.youtube.com/watch?v=pfSQm1NHj4s)
 
-APK files can be downloaded here if needed:
-
-- [SeeTestDemoApp](https://applicationsforselfhealing.s3.us-east-2.amazonaws.com/com.experitest.ExperiBank_.LoginActivity_UNMODIFIED.apk) (UNMODIFIED)
-
-- [SeeTestDemoApp](https://applicationsforselfhealing.s3.us-east-2.amazonaws.com/com.experitest.ExperiBank_.LoginActivity_MODIFIED.apk) (MODIFIED)
