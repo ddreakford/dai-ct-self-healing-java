@@ -2,9 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Test Automation">
 
-    <parameter name="device.query" value="@os='android'" />
+    <parameter name="device.query" value="@os='android' and contains(@name, 'Galaxy S2')" />
 
-    <test name="Self_Healing_01">
+    <test name="Self-Healing - Not Modified">
 
         <parameter name="application.name" value="unmodified" />
 
@@ -13,7 +13,7 @@
         </classes>
     </test>
 
-    <test name="Self_Healing_02">
+    <test name="Self-Healing - Modified">
 
         <parameter name="application.name" value="modified" />
 
