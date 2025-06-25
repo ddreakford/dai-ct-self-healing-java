@@ -54,9 +54,7 @@ public class SelfHealingTest {
         caps.setCapability("accessKey", new PropertiesReader().getProperty("ct.accessKey"));
         caps.setCapability("appiumVersion", "2.1.3");
         caps.setCapability("automationName", "UIAutomator2");
-                caps.setCapability("deviceQuery", deviceQuery);
-//        caps.setCapability("deviceQuery", "@serialnumber='R58M3070AMM'");
-//        caps.setCapability("deviceQuery", "@os='android'");
+        caps.setCapability("deviceQuery", deviceQuery);
         caps.setCapability("app", "cloud:uniqueName=" + applicationName);
         caps.setCapability("appPackage", "com.experitest.ExperiBank");
         caps.setCapability("appActivity", ".LoginActivity");
